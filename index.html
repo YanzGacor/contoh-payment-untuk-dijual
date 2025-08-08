@@ -158,7 +158,7 @@
         
         .note-box {
             background-color: #fff8e6;
-            border-left: 5px solid var(--warning);
+            border-left: 10px solid var(--warning);
             padding: 20px;
             border-radius: 10px;
             margin: 25px 0;
@@ -180,7 +180,7 @@
         }
         
         .note-box li {
-            margin-bottom: 8px;
+            margin-bottom: 15px;
             color: #6c757d;
         }
         
@@ -219,7 +219,7 @@
             background-color: #25D366;
             color: white;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 5px;
             text-decoration: none;
             font-weight: 500;
             margin-top: 10px;
@@ -288,10 +288,10 @@
             </div>
         </div>
         
-        <div class="payment-card">
+            <div class="payment-card">
             <h2><i class="fas fa-mobile-alt"></i> OVO</h2>
             <div class="payment-info">
-                <span class="payment-number" id="ovo-number">0856××××××××</span>
+                <span class="payment-number" id="ovo-number">0856********</span>
                 <button class="copy-btn" onclick="copyToClipboard('ovo-number')">
                     <i class="far fa-copy"></i> Salin
                 </button>
@@ -301,14 +301,14 @@
         <div class="payment-card">
             <h2><i class="fab fa-google-pay"></i> GOPAY</h2>
             <div class="payment-info">
-                <span class="payment-number" id="gopay-number">0856××××××××</span>
+                <span class="payment-number" id="gopay-number">0856********</span>
                 <button class="copy-btn" onclick="copyToClipboard('gopay-number')">
                     <i class="far fa-copy"></i> Salin
                 </button>
             </div>
         </div>
         
-        <div class="payment-card">
+         <div class="payment-card">
             <h2><i class="fas fa-qrcode"></i> QRIS</h2>
             <div class="qr-container">
                 <img src="https://files.catbox.moe/5fycag.png" alt="Pembayaran QRIS" class="qr-code">
@@ -331,42 +331,75 @@
             Bukti Transfer Silahkan Kirim Dibawah Ini
 
                 </button>
-                <a href="https://wa.me/6283895361019" class="whatsapp-btn" target="_blank">
+                <a href="https://wa.me/6285720420477" class="whatsapp-btn" target="_blank">
                     <i class="fab fa-whatsapp"></i> Chat via WhatsApp
                 </a>
             </div>
             
             <div class="contact-method">
                 <span class="contact-label">Telegram:</span>
-                <a href="https://t.me/yanzturu" class="telegram-link" target="_blank">
-                    <i class="fab fa-telegram"></i> t.me/yanzturu
+                <a href="https://t.me/XyyOfficial" class="telegram-link" target="_blank">
+                    <i class="fab fa-telegram"></i> t.me/XyyOfficial
                 </a>
             </div>
         </div>
     </div>
 
-    <script>
-        function copyToClipboard(elementId) {
+   <script>
+        async function copyToClipboard(elementId) {
             const element = document.getElementById(elementId);
-            const textToCopy = element.innerText;
+            const button = document.querySelector(`button[onclick="copyToClipboard('${elementId}')"]`);
+            const textToCopy = element.textContent.trim();
             
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                // Ubah teks tombol sementara
-                const originalBtn = event.target.closest('.copy-btn');
-                const originalHtml = originalBtn.innerHTML;
-                originalBtn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
-                originalBtn.style.backgroundColor = '#4BB543';
+            try {
+                // Coba menggunakan Clipboard API modern
+                if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(textToCopy);
+                } else {
+                    // Fallback untuk browser lama
+                    const textArea = document.createElement('textarea');
+                    textArea.value = textToCopy;
+                    textArea.style.position = 'fixed';
+                    textArea.style.opacity = 0;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    
+                    if (!document.execCommand('copy')) {
+                        throw new Error('Gagal menyalin');
+                    }
+                    document.body.removeChild(textArea);
+                }
                 
-                // Kembalikan ke keadaan semula setelah 2 detik
-                setTimeout(() => {
-                    originalBtn.innerHTML = originalHtml;
-                    originalBtn.style.backgroundColor = '';
-                }, 2000);
+                // Ubah tampilan tombol
+                if (button) {
+                    // Simpan state asli
+                    const originalHtml = button.innerHTML;
+                    const originalClass = button.className;
+                    
+                    // Ubah ke state "copied"
+                    button.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                    button.classList.add('copied');
+                    
+                    // Kembalikan setelah 2 detik
+                    setTimeout(() => {
+                        button.innerHTML = originalHtml;
+                        button.className = originalClass;
+                    }, 2000);
+                }
                 
-            }).catch(err => {
-                alert('Gagal menyalin: ' + err);
-            });
+            } catch (err) {
+                console.error('Error:', err);
+                if (button) {
+                    button.innerHTML = '<i class="fas fa-times"></i> Gagal!';
+                    button.style.backgroundColor = 'var(--danger)';
+                    
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="far fa-copy"></i> Salin';
+                        button.style.backgroundColor = 'var(--primary)';
+                    }, 2000);
+                }
+            }
         }
     </script>
 </body>
-</html>
+                    </html>
