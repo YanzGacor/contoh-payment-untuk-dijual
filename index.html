@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode Pembayaran</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .header h1 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+        
+        .header::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .payment-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .payment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .payment-card h2 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .payment-card h2 i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .payment-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .payment-number {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .copy-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--secondary);
+            transform: scale(1.05);
+        }
+        
+        .copy-btn i {
+            margin-right: 5px;
+        }
+        
+        .qr-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .qr-code {
+            max-width: 200px;
+            margin: 0 auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+        
+        .qr-container p {
+            margin-top: 10px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .note-box {
+            background-color: #fff8e6;
+            border-left: 5px solid var(--warning);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        
+        .note-box h3 {
+            color: var(--warning);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .note-box h3 i {
+            margin-right: 10px;
+        }
+        
+        .note-box ol {
+            padding-left: 20px;
+        }
+        
+        .note-box li {
+            margin-bottom: 8px;
+            color: #6c757d;
+        }
+        
+        .contact-box {
+            background-color: #f0f8ff;
+            border-left: 5px solid var(--success);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .contact-box h2 {
+            color: var(--success);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-box h2 i {
+            margin-right: 10px;
+        }
+        
+        .contact-method {
+            margin-bottom: 15px;
+        }
+        
+        .contact-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: #25D366;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(18, 140, 126, 0.3);
+        }
+        
+        .whatsapp-btn i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .telegram-link {
+            color: #0088cc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .telegram-link:hover {
+            color: #005580;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 576px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .payment-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .copy-btn {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-wallet"></i> Metode Pembayaran</h1>
+            <p>Pilih metode pembayaran yang paling nyaman untuk Anda</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2><i class="fab fa-google-wallet"></i> DANA</h2>
+            <div class="payment-info">
+                <span class="payment-number" id="dana-number">0838********</span>
+                <button class="copy-btn" onclick="copyToClipboard('dana-number')">
+                    <i class="far fa-copy"></i> Salin
+                </button>
+            </div>
+        </div>
+        
+        <div class="payment-card">
+            <h2><i class="fas fa-mobile-alt"></i> OVO</h2>
+            <div class="payment-info">
+                <span class="payment-number" id="ovo-number">0856××××××××</span>
+                <button class="copy-btn" onclick="copyToClipboard('ovo-number')">
+                    <i class="far fa-copy"></i> Salin
+                </button>
+            </div>
+        </div>
+        
+        <div class="payment-card">
+            <h2><i class="fab fa-google-pay"></i> GOPAY</h2>
+            <div class="payment-info">
+                <span class="payment-number" id="gopay-number">0856××××××××</span>
+                <button class="copy-btn" onclick="copyToClipboard('gopay-number')">
+                    <i class="far fa-copy"></i> Salin
+                </button>
+            </div>
+        </div>
+        
+        <div class="payment-card">
+            <h2><i class="fas fa-qrcode"></i> QRIS</h2>
+            <div class="qr-container">
+                <img src="https://files.catbox.moe/5fycag.png" alt="Pembayaran QRIS" class="qr-code">
+                <p>Scan kode QR di atas untuk melakukan pembayaran</p>
+            </div>
+        </div>
+        
+        <div class="note-box">
+            <h3><i class="fas fa-exclamation-circle"></i> Konfirmasi Pembayaran</h3>
+            <ol>
+                <li>Setelah transfer, segera kirim bukti pembayaran ke admin</li>
+                <li>Sertakan screenshot bukti transfer yang jelas</li>
+                <li>Tambahkan keterangan pesanan jika diperlukan</li>
+                <li>Konfirmasi akan diproses dalam waktu 1x24 jam</li>
+            </ol>
+        </div>
+        
+        <div class="contact-box">
+            <h2><i class="fas fa-headset"></i> Hubungi Admin</h2>
+            Bukti Transfer Silahkan Kirim Dibawah Ini
+
+                </button>
+                <a href="https://wa.me/6283895361019" class="whatsapp-btn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Chat via WhatsApp
+                </a>
+            </div>
+            
+            <div class="contact-method">
+                <span class="contact-label">Telegram:</span>
+                <a href="https://t.me/yanzturu" class="telegram-link" target="_blank">
+                    <i class="fab fa-telegram"></i> t.me/yanzturu
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const textToCopy = element.innerText;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Ubah teks tombol sementara
+                const originalBtn = event.target.closest('.copy-btn');
+                const originalHtml = originalBtn.innerHTML;
+                originalBtn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                originalBtn.style.backgroundColor = '#4BB543';
+                
+                // Kembalikan ke keadaan semula setelah 2 detik
+                setTimeout(() => {
+                    originalBtn.innerHTML = originalHtml;
+                    originalBtn.style.backgroundColor = '';
+                }, 2000);
+                
+            }).catch(err => {
+                alert('Gagal menyalin: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>
